@@ -130,7 +130,7 @@ setInterval(() => {
 
 // Contact Form
 const contactForm = document.getElementById('contactForm');
-const googleScriptURL = 'https://script.google.com/macros/s/AKfycbyQXhUPX4MsL36loMn2k8VDn6asTZF5dBncmlQkcj9UurX2-INBffZ8xqGrd12x4rH8/exec'; // Replace with your Web app URL
+const googleScriptURL = 'https://script.google.com/macros/s/AKfycbySkHAcy4wvEkLACV1PdXJVzzJlriq0l3kNNAeNGqIOy78b6OFiOXl-3GVx1kKDLM5g/exec'; // Replace with your Web app URL
 
 contactForm.addEventListener('submit', (e) => {
     e.preventDefault();
