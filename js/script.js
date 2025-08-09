@@ -130,7 +130,7 @@ setInterval(() => {
 
 // Contact Form
 const contactForm = document.getElementById('contactForm');
-const googleScriptURL = 'https://script.google.com/macros/s/AKfycbz6DNFt_MOFUO8A30rwxmF8nJXpX09dKlc-Yk1zI8eK_J78zj4_uAMhujHWo-NP58Es/exec'; // Replace with your Web app URL
+const googleScriptURL = 'https://script.google.com/macros/s/AKfycbyc-jyU8kM7FAjkpFVpcJuPBrR9otwV_qDECezrvmzCKa5bm9qKYIRnmFVNvJTKJUwU/exec'; // Replace with your Web app URL
 
 contactForm.addEventListener('submit', (e) => {
     e.preventDefault();
@@ -158,27 +158,31 @@ contactForm.addEventListener('submit', (e) => {
     };
     
     // Send data to Google Sheets
-    fetch(googleScriptURL, {
-        method: 'POST',
-        mode: 'no-cors',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData)
-    })
-    .then(response => {
+  fetch(googleScriptURL, {
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(formData)
+})
+.then(response => response.json())
+.then(data => {
+    if (data.result === 'success') {
         alert('Thank you for your message! We will contact you soon.');
         contactForm.reset();
-    })
-    .catch(error => {
-        console.error('Error:', error);
-        alert('There was an error sending your message. Please try again later.');
-    })
-    .finally(() => {
-        // Reset button state
-        submitBtn.textContent = originalText;
-        submitBtn.disabled = false;
-    });
+    } else {
+        alert('There was an issue. Please try again later.');
+    }
+})
+.catch(error => {
+    console.error('Error:', error);
+    alert('There was an error sending your message.');
+})
+.finally(() => {
+    submitBtn.textContent = originalText;
+    submitBtn.disabled = false;
+});
+
 });
 // Chatbot
 const chatbotToggle = document.getElementById('chatbotToggle');
