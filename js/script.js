@@ -130,7 +130,7 @@ setInterval(() => {
 
 // Contact Form
 const contactForm = document.getElementById('contactForm');
-const googleScriptURL = 'https://script.google.com/macros/s/AKfycbyc-jyU8kM7FAjkpFVpcJuPBrR9otwV_qDECezrvmzCKa5bm9qKYIRnmFVNvJTKJUwU/exec'; // Replace with your Web app URL
+const googleScriptURL = 'https://script.google.com/macros/s/AKfycbzj2Bg_3xbzCbHxUJSizqBRsIZUYpb5Mc_qmt7SlrL494wXJdEddIeSBnwAcEhZj_vg/exec'; // Replace with your Web app URL
 
 contactForm.addEventListener('submit', (e) => {
     e.preventDefault();
@@ -182,6 +182,7 @@ contactForm.addEventListener('submit', (e) => {
     submitBtn.textContent = originalText;
     submitBtn.disabled = false;
 });
+
 
 });
 // Chatbot
