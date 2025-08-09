@@ -130,7 +130,7 @@ setInterval(() => {
 
 // Contact Form
 const contactForm = document.getElementById('contactForm');
-const googleScriptURL = 'https://script.google.com/macros/s/AKfycbzRao69SyFLjLNgIOlxtt4KCoMvNchz97vokAA8DpA8gNWiABlnxmcNclGKbnx2cbqO/exec'; // Replace with your Web app URL
+const googleScriptURL = 'https://script.google.com/macros/s/.../exec'; // Replace with your Web app URL
 
 contactForm.addEventListener('submit', (e) => {
     e.preventDefault();
