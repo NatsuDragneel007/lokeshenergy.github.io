@@ -130,6 +130,7 @@ setInterval(() => {
 
 // Contact Form
 const contactForm = document.getElementById('contactForm');
+const googleScriptURL = 'https://script.google.com/macros/s/AKfycbzRao69SyFLjLNgIOlxtt4KCoMvNchz97vokAA8DpA8gNWiABlnxmcNclGKbnx2cbqO/exec'; // Replace with your Web app URL
 
 contactForm.addEventListener('submit', (e) => {
     e.preventDefault();
@@ -141,14 +142,44 @@ contactForm.addEventListener('submit', (e) => {
     const service = document.getElementById('service').value;
     const message = document.getElementById('message').value;
     
-    // Here you would normally send the data to a server
-    // For demo purposes, we'll just show a success message
-    alert(`Thank you, ${name}! Your message has been sent successfully. We'll contact you soon.`);
+    // Show loading state
+    const submitBtn = contactForm.querySelector('button[type="submit"]');
+    const originalText = submitBtn.textContent;
+    submitBtn.textContent = 'Sending...';
+    submitBtn.disabled = true;
     
-    // Reset form
-    contactForm.reset();
+    // Prepare data
+    const formData = {
+        name: name,
+        email: email,
+        phone: phone,
+        service: service,
+        message: message
+    };
+    
+    // Send data to Google Sheets
+    fetch(googleScriptURL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData)
+    })
+    .then(response => {
+        alert('Thank you for your message! We will contact you soon.');
+        contactForm.reset();
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('There was an error sending your message. Please try again later.');
+    })
+    .finally(() => {
+        // Reset button state
+        submitBtn.textContent = originalText;
+        submitBtn.disabled = false;
+    });
 });
-
 // Chatbot
 const chatbotToggle = document.getElementById('chatbotToggle');
 const chatbotContainer = document.getElementById('chatbotContainer');
@@ -159,17 +190,19 @@ const chatbotMessages = document.getElementById('chatbotMessages');
 
 // Chatbot responses
 const chatbotResponses = {
-    "hello": "Hello! How can I assist you with your solar energy needs today?",
-    "hi": "Hi there! I'm here to help you with any questions about solar energy solutions.",
-    "services": "We offer a wide range of solar services including rooftop solar systems, solar water heaters, solar pumping systems, consultation, maintenance, and custom solutions.",
-    "cost": "The cost of solar systems varies based on your requirements. For a personalized quote, please fill out our contact form or call us at +91 98765 43210.",
-    "residential": "We provide solar solutions for homes including bungalows and apartments. Our systems are designed to reduce your electricity bills significantly.",
-    "commercial": "Our commercial solar solutions help businesses reduce operational costs with customized rooftop and ground-mounted systems.",
-    "industrial": "We specialize in large-scale industrial solar installations that can power entire manufacturing facilities and reduce energy costs.",
-    "maintenance": "We offer comprehensive maintenance packages for all types of solar systems to ensure optimal performance and longevity.",
-    "contact": "You can reach us at +91 98765 43210 or email info@lokeshenergy.com. Our office is located at 123 Solar Street, Pune.",
-    "thank you": "You're welcome! Is there anything else I can help you with regarding solar energy solutions?",
-    "bye": "Goodbye! Feel free to come back if you have more questions about solar energy. Have a great day!"
+  "hello": "Hello! How can I assist you with your solar energy needs today?",
+  "hi": "Hi there! I'm here to help you with any questions about solar energy solutions.",
+  "services": "We offer rooftop solar systems, solar water heaters, solar pumping systems, consultation, maintenance, and custom solar solutions.",
+  "cost": "Solar system costs vary based on your requirements. A typical residential system costs between ₹1.5-5 lakhs. For an exact quote, please fill our contact form.",
+  "residential": "We provide solar solutions for homes including bungalows and apartments. Our systems can reduce your electricity bills by up to 90%.",
+  "commercial": "Our commercial solar solutions help businesses reduce operational costs with customized systems.",
+  "industrial": "We specialize in large-scale industrial solar installations for manufacturing facilities.",
+  "maintenance": "We offer annual maintenance contracts starting at ₹5,000/year to ensure optimal performance.",
+  "warranty": "All our solar panels come with 25-year performance warranty and 5-year manufacturing warranty.",
+  "subsidy": "Yes, we help you avail government subsidies up to 40% for residential solar installations.",
+  "contact": "Call us at +91 9379 33 11 63 or email info@lokeshenergy.com. Our office is at 123 Solar Street, Pune.",
+  "thank you": "You're welcome! Is there anything else I can help you with?",
+  "bye": "Goodbye! Feel free to return if you have more questions about solar energy."
 };
 
 // Toggle chatbot

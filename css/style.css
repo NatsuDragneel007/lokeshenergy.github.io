@@ -140,12 +140,49 @@ header {
 .hero h1 {
     font-size: 3.5rem;
     margin-bottom: 1rem;
-    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
-    background: linear-gradient(to right, var(--primary), #f9d71c);
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-    animation: shimmer 3s infinite;
+    color: var(--light); /* Changed to white */
+    text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    animation: fadeInUp 1s ease, textGlow 2s infinite alternate;
+    position: relative;
+    z-index: 1;
+}
+
+/* Add text glow animation */
+@keyframes textGlow {
+    0% {
+        text-shadow: 0 0 5px rgba(255, 255, 255, 0.7),
+                     0 0 10px rgba(255, 255, 255, 0.5),
+                     0 0 15px rgba(255, 255, 255, 0.3);
+    }
+    100% {
+        text-shadow: 0 0 10px rgba(255, 255, 255, 0.9),
+                     0 0 20px rgba(255, 255, 255, 0.7),
+                     0 0 30px rgba(255, 255, 255, 0.5);
+    }
+}
+
+/* Add floating animation to letters */
+.hero h1 span {
+    display: inline-block;
+    animation: float 3s ease-in-out infinite;
+}
+
+.hero h1 span:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.hero h1 span:nth-child(3) {
+    animation-delay: 0.4s;
+}
+
+.hero h1 span:nth-child(4) {
+    animation-delay: 0.6s;
+}
+
+/* Add floating animation */
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
 }
 
 @keyframes shimmer {
@@ -979,4 +1016,38 @@ footer {
     .social-links {
         justify-content: center;
     }
+}
+
+/* WhatsApp Button */
+.whatsapp-float {
+    position: fixed;
+    width: 60px;
+    height: 60px;
+    bottom: 100px;
+    right: 30px;
+    background-color: #25d366;
+    color: #FFF;
+    border-radius: 50px;
+    text-align: center;
+    font-size: 30px;
+    box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.4);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.whatsapp-float:hover {
+    transform: scale(1.1);
+    background-color: #128C7E;
+}
+
+.whatsapp-icon {
+    margin-top: 3px;
+}
+
+/* Adjust chatbot position to avoid overlap */
+.chatbot {
+    bottom: 170px; /* Increased from 30px to make space for WhatsApp button */
 }
