@@ -160,7 +160,12 @@ setInterval(() => {
 const contactForm = document.getElementById('contactForm');
 const formMessage = document.getElementById('form-message');
 
-contactForm.addEventListener('submit', (e) => {
+// Airtable API configuration
+const AIRTABLE_API_KEY = 'YOUR_AIRTABLE_API_KEY';
+const AIRTABLE_BASE_ID = 'YOUR_AIRTABLE_BASE_ID';
+const AIRTABLE_TABLE_NAME = 'Table1'; // Default table name
+
+contactForm.addEventListener('submit', async (e) => {
     e.preventDefault();
     
     // Show loading state
@@ -169,21 +174,48 @@ contactForm.addEventListener('submit', (e) => {
     submitBtn.innerHTML = '<span class="loading"></span>Sending...';
     submitBtn.disabled = true;
     
-    // Simulate form submission (replace with actual endpoint)
-    setTimeout(() => {
-        // Show success message
-        formMessage.classList.add('show');
-        contactForm.reset();
+    // Get form data
+    const formData = {
+        fields: {
+            Name: document.getElementById('name').value,
+            Email: document.getElementById('email').value,
+            Phone: document.getElementById('phone').value,
+            Service: document.getElementById('service').value,
+            Message: document.getElementById('message').value
+        }
+    };
+    
+    try {
+        // Submit to Airtable
+        const response = await fetch(`https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${AIRTABLE_TABLE_NAME}`, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${AIRTABLE_API_KEY}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(formData)
+        });
         
-        // Hide success message after 5 seconds
-        setTimeout(() => {
-            formMessage.classList.remove('show');
-        }, 5000);
-        
+        if (response.ok) {
+            // Show success message
+            formMessage.classList.add('show');
+            contactForm.reset();
+            
+            // Hide success message after 5 seconds
+            setTimeout(() => {
+                formMessage.classList.remove('show');
+            }, 5000);
+        } else {
+            throw new Error('Network response was not ok');
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        alert('There was an error sending your message. Please try again later.');
+    } finally {
         // Reset button state
         submitBtn.innerHTML = originalText;
         submitBtn.disabled = false;
-    }, 1500);
+    }
 });
 // Chatbot
 const chatbotToggle = document.getElementById('chatbotToggle');

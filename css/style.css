@@ -1266,3 +1266,61 @@ footer {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
 }
+.airtable-form-container {
+    background: var(--light);
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    overflow: hidden;
+    padding: 20px;
+}
+
+.airtable-embed {
+    border-radius: 10px;
+}
+
+.form-message {
+    display: none;
+    background: linear-gradient(135deg, rgba(8, 77, 39, 0.9), rgba(8, 77, 39, 0.95));
+    color: var(--light);
+    padding: 30px;
+    border-radius: 10px;
+    text-align: center;
+    margin-top: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+}
+
+.form-message.show {
+    display: block;
+    animation: fadeIn 0.5s ease;
+}
+
+.message-content i {
+    font-size: 3rem;
+    color: var(--primary);
+    margin-bottom: 15px;
+}
+
+.message-content h3 {
+    font-size: 1.8rem;
+    margin-bottom: 10px;
+}
+
+.message-content p {
+    font-size: 1.1rem;
+    opacity: 0.9;
+}
+
+.loading {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    border: 2px solid rgba(255,255,255,0.3);
+    border-radius: 50%;
+    border-top-color: white;
+    animation: spin 1s linear infinite;
+    margin-right: 8px;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
