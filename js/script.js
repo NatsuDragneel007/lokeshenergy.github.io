@@ -161,8 +161,8 @@ const contactForm = document.getElementById('contactForm');
 const formMessage = document.getElementById('form-message');
 
 // Airtable API configuration
-const AIRTABLE_API_KEY = 'YOUR_AIRTABLE_API_KEY';
-const AIRTABLE_BASE_ID = 'YOUR_AIRTABLE_BASE_ID';
+const AIRTABLE_API_KEY = 'patwIQ8jWFx8YYKcs';
+const AIRTABLE_BASE_ID = 'appW7po9myhVQs0lm';
 const AIRTABLE_TABLE_NAME = 'Table1'; // Default table name
 
 contactForm.addEventListener('submit', async (e) => {
@@ -187,10 +187,10 @@ contactForm.addEventListener('submit', async (e) => {
     
     try {
         // Submit to Airtable
-        const response = await fetch(`https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${AIRTABLE_TABLE_NAME}`, {
+        const response = await fetch(`https://api.airtable.com/v0/${appW7po9myhVQs0lm}/${Contacts}`, {
             method: 'POST',
             headers: {
-                'Authorization': `Bearer ${AIRTABLE_API_KEY}`,
+                'Authorization': `Bearer ${patwIQ8jWFx8YYKcs}`,
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(formData)
