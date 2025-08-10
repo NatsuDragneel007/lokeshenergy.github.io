@@ -129,18 +129,11 @@ setInterval(() => {
 }, 5000);
 
 // Contact Form
+// Contact Form
 const contactForm = document.getElementById('contactForm');
-const googleScriptURL = 'https://script.google.com/macros/s/AKfycbyK5PH2yE8QsZOLJX5QbtwjFXERTslRJdd2pXB5rEGDBJFrP0L6GlqfVb2jxA9YEkn34g/exec'; // Replace with your Web app URL
 
 contactForm.addEventListener('submit', (e) => {
     e.preventDefault();
-    
-    // Get form values
-    const name = document.getElementById('name').value;
-    const email = document.getElementById('email').value;
-    const phone = document.getElementById('phone').value;
-    const service = document.getElementById('service').value;
-    const message = document.getElementById('message').value;
     
     // Show loading state
     const submitBtn = contactForm.querySelector('button[type="submit"]');
@@ -148,42 +141,25 @@ contactForm.addEventListener('submit', (e) => {
     submitBtn.textContent = 'Sending...';
     submitBtn.disabled = true;
     
-    // Prepare data
-    const formData = {
-        name: name,
-        email: email,
-        phone: phone,
-        service: service,
-        message: message
-    };
-    
-    // Send data to Google Sheets
-  fetch(googleScriptURL, {
-    method: 'POST',
-    headers: {
-        'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(formData)
-})
-.then(response => response.json())
-.then(data => {
-    if (data.result === 'success') {
+    // Submit the form
+    fetch(contactForm.action, {
+        method: 'POST',
+        body: new FormData(contactForm),
+        mode: 'no-cors' // This is important for Google Forms
+    })
+    .then(response => {
         alert('Thank you for your message! We will contact you soon.');
         contactForm.reset();
-    } else {
-        alert('There was an issue. Please try again later.');
-    }
-})
-.catch(error => {
-    console.error('Error:', error);
-    alert('There was an error sending your message.');
-})
-.finally(() => {
-    submitBtn.textContent = originalText;
-    submitBtn.disabled = false;
-});
-
-
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('There was an error sending your message. Please try again later.');
+    })
+    .finally(() => {
+        // Reset button state
+        submitBtn.textContent = originalText;
+        submitBtn.disabled = false;
+    });
 });
 // Chatbot
 const chatbotToggle = document.getElementById('chatbotToggle');
