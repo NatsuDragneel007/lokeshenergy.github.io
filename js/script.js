@@ -129,8 +129,8 @@ setInterval(() => {
 }, 5000);
 
 // Contact Form
-// Contact Form
 const contactForm = document.getElementById('contactForm');
+const formMessage = document.getElementById('form-message');
 
 contactForm.addEventListener('submit', (e) => {
     e.preventDefault();
@@ -148,8 +148,14 @@ contactForm.addEventListener('submit', (e) => {
         mode: 'no-cors' // This is important for Google Forms
     })
     .then(response => {
-        alert('Thank you for your message! We will contact you soon.');
+        // Show success message
+        formMessage.classList.add('show');
         contactForm.reset();
+        
+        // Hide success message after 5 seconds
+        setTimeout(() => {
+            formMessage.classList.remove('show');
+        }, 5000);
     })
     .catch(error => {
         console.error('Error:', error);

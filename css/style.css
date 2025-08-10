@@ -1051,3 +1051,33 @@ footer {
 .chatbot {
     bottom: 170px; /* Increased from 30px to make space for WhatsApp button */
 }
+/* Form Message */
+.form-message {
+    display: none;
+    background: linear-gradient(135deg, rgba(8, 77, 39, 0.9), rgba(8, 77, 39, 0.95));
+    color: var(--light);
+    padding: 30px;
+    border-radius: 10px;
+    text-align: center;
+    margin-top: 20px;
+}
+
+.form-message.show {
+    display: block;
+    animation: fadeIn 0.5s ease;
+}
+
+.message-content i {
+    font-size: 3rem;
+    color: var(--primary);
+    margin-bottom: 15px;
+}
+
+.message-content h3 {
+    font-size: 1.8rem;
+    margin-bottom: 10px;
+}
+
+.message-content p {
+    font-size: 1.1rem;
+}
