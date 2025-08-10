@@ -89,6 +89,23 @@ header {
     width: 100%;
 }
 
+.nav-links.active {
+    display: flex;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background: linear-gradient(135deg, var(--secondary), #053018);
+    flex-direction: column;
+    padding: 20px 0;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+.nav-links.active li {
+    margin: 10px 0;
+    text-align: center;
+}
+
 .mobile-menu-btn {
     display: none;
     background: none;
@@ -955,6 +972,20 @@ footer {
 }
 
 /* Responsive Design */
+@media (max-width: 1200px) {
+    .header-container {
+        padding: 0 3%;
+    }
+    
+    .hero {
+        padding: 0 3%;
+    }
+    
+    .stats, .services, .projects, .testimonials, .contact {
+        padding: 60px 3%;
+    }
+}
+
 @media (max-width: 992px) {
     .hero h1 {
         font-size: 2.8rem;
@@ -962,16 +993,45 @@ footer {
     
     .contact-container {
         grid-template-columns: 1fr;
+        gap: 30px;
+    }
+    
+    .services-container {
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 25px;
+    }
+    
+    .projects-container {
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 25px;
+    }
+    
+    .stats-container {
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 20px;
     }
 }
 
 @media (max-width: 768px) {
+    header {
+        padding: 0.8rem 3%;
+    }
+    
+    .header-container {
+        position: relative;
+    }
+    
     .nav-links {
         display: none;
     }
     
     .mobile-menu-btn {
         display: block;
+    }
+    
+    .hero {
+        padding: 0 3%;
+        height: 90vh;
     }
     
     .hero h1 {
@@ -985,22 +1045,92 @@ footer {
     .btn-outline {
         margin-left: 0;
         margin-top: 15px;
-        display: block;
+        display: inline-block;
+        width: auto;
+    }
+    
+    .section-header h2 {
+        font-size: 2.2rem;
+    }
+    
+    .services-container {
+        grid-template-columns: 1fr;
+    }
+    
+    .projects-container {
+        grid-template-columns: 1fr;
+    }
+    
+    .stats-container {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+    }
+    
+    .stat-box {
+        padding: 20px;
+    }
+    
+    .contact-item {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .contact-item i {
+        margin-right: 0;
+        margin-bottom: 10px;
     }
     
     .chatbot-container {
-        width: 90%;
+        width: 95%;
         right: 5%;
+        height: 450px;
+        bottom: 70px;
+    }
+    
+    .whatsapp-float {
+        width: 50px;
+        height: 50px;
+        font-size: 24px;
+        bottom: 80px;
+        right: 20px;
     }
 }
 
 @media (max-width: 576px) {
+    .hero {
+        padding: 0 5%;
+    }
+    
     .hero h1 {
         font-size: 1.8rem;
     }
     
+    .hero p {
+        font-size: 1rem;
+    }
+    
     .section-header h2 {
         font-size: 2rem;
+    }
+    
+    .stats-container {
+        grid-template-columns: 1fr;
+    }
+    
+    .stat-box h3 {
+        font-size: 2rem;
+    }
+    
+    .service-content, .project-content {
+        padding: 20px;
+    }
+    
+    .testimonial-card {
+        padding: 20px;
+    }
+    
+    .contact-form {
+        padding: 20px;
     }
     
     .footer-container {
@@ -1080,4 +1210,59 @@ footer {
 
 .message-content p {
     font-size: 1.1rem;
+}
+
+/* Performance Optimizations */
+.hero {
+    will-change: transform;
+}
+
+.service-card, .project-card, .stat-box {
+    will-change: transform;
+}
+
+/* Improved Loading States */
+.btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.btn:disabled::before {
+    display: none;
+}
+
+/* Better Focus States for Accessibility */
+.form-control:focus,
+.btn:focus,
+.nav-links a:focus {
+    outline: 2px solid var(--primary);
+    outline-offset: 2px;
+}
+
+/* Improved Contrast for Better Accessibility */
+.hero p {
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
+}
+
+.service-content p,
+.project-content p {
+    color: #444;
+}
+
+/* Loading Animation */
+.loading {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 2px solid #f3f3f3;
+    border-top: 2px solid var(--primary);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-right: 10px;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
 }
