@@ -163,7 +163,7 @@ const formMessage = document.getElementById('form-message');
 // Airtable API configuration
 const AIRTABLE_API_KEY = 'patwIQ8jWFx8YYKcs';
 const AIRTABLE_BASE_ID = 'appW7po9myhVQs0lm';
-const AIRTABLE_TABLE_NAME = 'Table1'; // Default table name
+const AIRTABLE_TABLE_NAME = 'Contacts'; // Default table name
 
 contactForm.addEventListener('submit', async (e) => {
     e.preventDefault();
