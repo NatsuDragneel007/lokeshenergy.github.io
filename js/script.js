@@ -5,26 +5,11 @@ document.addEventListener('DOMContentLoaded', function() {
     const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
     const navLinks = document.querySelector('.nav-links');
     
-    if (mobileMenuBtn) {
+    if (mobileMenuBtn && navLinks) {
         mobileMenuBtn.addEventListener('click', () => {
             navLinks.classList.toggle('active');
         });
     }
-    
-    // Close mobile menu when clicking on a link
-    const navLinksItems = document.querySelectorAll('.nav-links a');
-    navLinksItems.forEach(link => {
-        link.addEventListener('click', () => {
-            navLinks.classList.remove('active');
-        });
-    });
-    
-    // Close mobile menu when clicking outside
-    document.addEventListener('click', (e) => {
-        if (!e.target.closest('header')) {
-            navLinks.classList.remove('active');
-        }
-    });
     
     // Smooth Scrolling
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
@@ -55,46 +40,39 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Counter Animation for Stats
     const counters = document.querySelectorAll('.counter');
-    const speed = 200;
-    
-    const countUp = () => {
-        counters.forEach(counter => {
-            const target = +counter.getAttribute('data-target');
-            const count = +counter.innerText;
-            const increment = target / speed;
-            
-            if (count < target) {
-                counter.innerText = Math.ceil(count + increment);
-                setTimeout(countUp, 10);
-            } else {
-                counter.innerText = target;
-            }
-        });
-    };
-    
-    // Fade In Animation on Scroll
-    const fadeElements = document.querySelectorAll('.fade-in');
-    const statsSection = document.querySelector('.stats');
-    
-    const fadeInOnScroll = () => {
-        fadeElements.forEach(element => {
-            const elementTop = element.getBoundingClientRect().top;
-            const elementVisible = 150;
-            
-            if (elementTop < window.innerHeight - elementVisible) {
-                element.classList.add('visible');
+    if (counters.length > 0) {
+        const speed = 200;
+        
+        const countUp = () => {
+            counters.forEach(counter => {
+                const target = +counter.getAttribute('data-target');
+                const count = +counter.innerText;
+                const increment = target / speed;
                 
-                // Trigger counter animation when stats section is visible
-                if (element.closest('.stats') && !element.classList.contains('counted')) {
-                    element.classList.add('counted');
-                    countUp();
+                if (count < target) {
+                    counter.innerText = Math.ceil(count + increment);
+                    setTimeout(countUp, 10);
+                } else {
+                    counter.innerText = target;
                 }
-            }
+            });
+        };
+        
+        // Trigger counter animation when stats section is visible
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    countUp();
+                    observer.unobserve(entry.target);
+                }
+            });
         });
-    };
-    
-    window.addEventListener('scroll', fadeInOnScroll);
-    fadeInOnScroll(); // Initial check
+        
+        const statsSection = document.querySelector('.stats');
+        if (statsSection) {
+            observer.observe(statsSection);
+        }
+    }
     
     // Testimonial Slider
     const testimonials = [
@@ -142,18 +120,22 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
     
-    navDots.forEach((dot, index) => {
-        dot.addEventListener('click', () => {
-            currentTestimonial = index;
-            showTestimonial(currentTestimonial);
+    if (navDots.length > 0) {
+        navDots.forEach((dot, index) => {
+            dot.addEventListener('click', () => {
+                currentTestimonial = index;
+                showTestimonial(currentTestimonial);
+            });
         });
-    });
+    }
     
     // Auto-rotate testimonials
-    setInterval(() => {
-        currentTestimonial = (currentTestimonial + 1) % testimonials.length;
-        showTestimonial(currentTestimonial);
-    }, 5000);
+    if (testimonialCard) {
+        setInterval(() => {
+            currentTestimonial = (currentTestimonial + 1) % testimonials.length;
+            showTestimonial(currentTestimonial);
+        }, 5000);
+    }
     
     // Contact Form
     const contactForm = document.getElementById('contactForm');
@@ -197,46 +179,24 @@ document.addEventListener('DOMContentLoaded', function() {
     const chatbotSend = document.getElementById('chatbotSend');
     const chatbotMessages = document.getElementById('chatbotMessages');
     
-    // Chatbot responses
-    const chatbotResponses = {
-        "hello": "Hello! How can I assist you with your solar energy needs today?",
-        "hi": "Hi there! I'm here to help you with any questions about solar energy solutions.",
-        "services": "We offer rooftop solar systems, solar water heaters, solar pumping systems, consultation, maintenance, and custom solar solutions. Which service interests you most?",
-        "cost": "Solar system costs vary based on your requirements. A typical residential system costs between ₹1.5-5 lakhs. For an exact quote, please fill our contact form or call us at +91 9379 33 11 63.",
-        "price": "Solar system costs vary based on your requirements. A typical residential system costs between ₹1.5-5 lakhs. For an exact quote, please fill our contact form or call us at +91 9379 33 11 63.",
-        "residential": "We provide solar solutions for homes including bungalows and apartments. Our systems can reduce your electricity bills by up to 90%. Would you like to know more about residential installations?",
-        "commercial": "Our commercial solar solutions help businesses reduce operational costs with customized systems. We've installed 150KW+ systems for offices and complexes.",
-        "industrial": "We specialize in large-scale industrial solar installations for manufacturing facilities. Our largest installation is 500KW for a factory in Nashik.",
-        "maintenance": "We offer annual maintenance contracts starting at ₹5,000/year to ensure optimal performance. This includes cleaning, inspection, and performance monitoring.",
-        "warranty": "All our solar panels come with 25-year performance warranty and 5-year manufacturing warranty. We also provide 5-year installation warranty.",
-        "subsidy": "Yes, we help you avail government subsidies up to 40% for residential solar installations. We handle all the paperwork for you!",
-        "contact": "📞 Call us at +91 9379 33 11 63\n📧 Email: info@lokeshenergy.com\n📍 Office: 123 Solar Street, Pune\n🕒 Mon-Sat: 9AM-6PM",
-        "location": "We're located at 123 Solar Street, Pune, Maharashtra. We serve clients across Maharashtra and nearby states.",
-        "experience": "We have 25+ years of experience in solar energy solutions with 1500+ happy clients and 750+ KW installations completed.",
-        "installation": "Our installation process typically takes 2-5 days depending on system size. We handle everything from design to commissioning and government approvals.",
-        "savings": "Most of our clients see 70-90% reduction in electricity bills. The payback period is typically 4-6 years, after which you enjoy free electricity!",
-        "thank you": "You're welcome! Is there anything else I can help you with regarding solar energy?",
-        "thanks": "You're welcome! Is there anything else I can help you with regarding solar energy?",
-        "bye": "Goodbye! Feel free to return if you have more questions about solar energy. Have a great day!",
-        "goodbye": "Goodbye! Feel free to return if you have more questions about solar energy. Have a great day!"
-    };
-    
     // Toggle chatbot
-    if (chatbotToggle) {
+    if (chatbotToggle && chatbotContainer) {
         chatbotToggle.addEventListener('click', () => {
             chatbotContainer.style.display = 'flex';
-            chatbotInput.focus();
+            if (chatbotInput) chatbotInput.focus();
         });
     }
     
-    if (chatbotClose) {
+    if (chatbotClose && chatbotContainer) {
         chatbotClose.addEventListener('click', () => {
             chatbotContainer.style.display = 'none';
         });
     }
     
-    // Send message
+    // Send message function
     function sendMessage() {
+        if (!chatbotInput || !chatbotMessages) return;
+        
         const message = chatbotInput.value.trim();
         if (message === '') return;
         
@@ -258,23 +218,16 @@ document.addEventListener('DOMContentLoaded', function() {
         // Generate bot response
         setTimeout(() => {
             // Remove typing indicator
-            chatbotMessages.removeChild(typingIndicator);
+            if (chatbotMessages.contains(typingIndicator)) {
+                chatbotMessages.removeChild(typingIndicator);
+            }
             
             const botMessage = document.createElement('div');
             botMessage.className = 'message bot';
             
-            // Simple keyword matching
-            const lowerMessage = message.toLowerCase();
-            let response = "I'm not sure how to respond to that. For specific inquiries, please contact us directly at info@lokeshenergy.com or call +91 9379 33 11 63.";
+            // Simple response
+            botMessage.textContent = "Thank you for your message! Our team will get back to you soon.";
             
-            for (const [key, value] of Object.entries(chatbotResponses)) {
-                if (lowerMessage.includes(key)) {
-                    response = value;
-                    break;
-                }
-            }
-            
-            botMessage.textContent = response;
             chatbotMessages.appendChild(botMessage);
             
             // Scroll to bottom
@@ -335,32 +288,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 top: 0,
                 behavior: 'smooth'
             });
-        });
-    }
-    
-    // Preloader
-    const preloader = document.querySelector('.preloader');
-    
-    if (preloader) {
-        window.addEventListener('load', () => {
-            preloader.classList.add('fade-out');
-            
-            setTimeout(() => {
-                preloader.style.display = 'none';
-            }, 500);
-        });
-    }
-    
-    // Progress Bar
-    const progressBar = document.querySelector('.progress-bar');
-    
-    if (progressBar) {
-        window.addEventListener('scroll', () => {
-            const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
-            const scrollPosition = window.scrollY;
-            const scrollPercentage = (scrollPosition / scrollHeight) * 100;
-            
-            progressBar.style.width = scrollPercentage + '%';
         });
     }
 });
